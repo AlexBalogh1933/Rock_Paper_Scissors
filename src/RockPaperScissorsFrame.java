@@ -27,9 +27,9 @@ public class RockPaperScissorsFrame extends JFrame
         quitPanel = new JPanel();
 
         title = new JLabel("Welcome to Rock Paper Scissors");
-        rockIcon = new ImageIcon("rock.png");
-        paperIcon = new ImageIcon("paper.png");
-        scissorIcon = new ImageIcon("scissors.png");
+        rockIcon = new ImageIcon("src/rock.png");
+        paperIcon = new ImageIcon("src/paper.png");
+        scissorIcon = new ImageIcon("src/scissors.png");
 
         Image rockImage = rockIcon.getImage();
         Image rocknewIMG = rockImage.getScaledInstance(100,100, Image.SCALE_SMOOTH);
