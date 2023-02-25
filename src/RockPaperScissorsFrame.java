@@ -6,20 +6,22 @@ import java.util.Random;
 
 public class RockPaperScissorsFrame extends JFrame
 {
-    private JPanel mainPanel, topPanel, selectPanel, scorePanel, quitScorePanel;
+    private JPanel mainPanel, topPanel, selectPanel, quitScorePanel;
     private JLabel title;
     private ImageIcon rockIcon, paperIcon, scissorIcon;
     private JButton rockButton, paperButton, scissorButton;
     private JButton quitButton;
-    private JLabel playerWinsLabel, computerWinsLabel, tiesLabel;
-    private JTextField playerWinsTA, computerWinsTA, tiesTA;
+    private JTextField playerWinsTF, computerWinsTF, tiesTF;
     private JTextArea gameResults;
     private JScrollPane scroll;
     private ActionListener quit = new QuitListener();
     private ActionListener rockSelection = new RockListener();
     private ActionListener paperSelection = new PaperListener();
     private ActionListener scissorsSelection = new ScissorsListener();
-    public int playerWinsNum, computerWinsNum, tiesNum;
+    private int playerWinsNum, computerWinsNum, tiesNum;
+    private String playerWinsStr, computerWinsStr, tiesStr;
+
+    Random rnd = new Random();
 
     public RockPaperScissorsFrame()
     {
@@ -56,12 +58,12 @@ public class RockPaperScissorsFrame extends JFrame
         scissorButton = new JButton("Scissors", scissorIcon);
         scissorButton.addActionListener(scissorsSelection);
 
-        playerWinsTA = new JTextField("Player Wins: "+ playerWinsNum);
-        playerWinsTA.setEditable(false);
-        computerWinsTA = new JTextField("Computer Wins: " + computerWinsNum);
-        computerWinsTA.setEditable(false);
-        tiesTA = new JTextField("Ties: " + tiesNum);
-        tiesTA.setEditable(false);
+        playerWinsTF = new JTextField("Player Wins: "+ playerWinsNum);
+        playerWinsTF.setEditable(false);
+        computerWinsTF = new JTextField("Computer Wins: " + computerWinsNum);
+        computerWinsTF.setEditable(false);
+        tiesTF = new JTextField("Ties: " + tiesNum);
+        tiesTF.setEditable(false);
 
         gameResults = new JTextArea(6,30);
         scroll = new JScrollPane(gameResults);
@@ -93,12 +95,12 @@ public class RockPaperScissorsFrame extends JFrame
         selectPanel.add(scissorButton);
         scissorButton.setFont(new Font("Comic Sans MS", Font.PLAIN, 25));
         scissorButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,4));
-        selectPanel.add(playerWinsTA);
-        playerWinsTA.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-        selectPanel.add(computerWinsTA);
-        computerWinsTA.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-        selectPanel.add(tiesTA);
-        tiesTA.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+        selectPanel.add(playerWinsTF);
+        playerWinsTF.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+        selectPanel.add(computerWinsTF);
+        computerWinsTF.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+        selectPanel.add(tiesTF);
+        tiesTF.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 
         // Bottom/Quit
         quitScorePanel.add(scroll);
@@ -119,21 +121,84 @@ public class RockPaperScissorsFrame extends JFrame
     {
         public void actionPerformed(ActionEvent AE)
         {
-            gameResults.append("Picked Rock" + "\n");
+            int compMove = rnd.nextInt(3); //0 is rock, 1 is paper, 2 is scissors
+            if (compMove == 0)//rock
+            {
+                tiesNum++;
+                tiesStr = String.valueOf(tiesNum);
+                gameResults.append("You picked rock, the computer picked rock. You tied with the computer!\n");
+                tiesTF.setText("Ties: " + tiesStr);
+            }
+            else if (compMove == 1)//paper
+            {
+                computerWinsNum++;
+                computerWinsStr = String.valueOf(computerWinsNum);
+                gameResults.append("You picked rock, the computer picked paper. The computer won!\n");
+                computerWinsTF.setText("Computer Wins: " + computerWinsStr);
+            }
+            else if (compMove == 2)//scissors
+            {
+                playerWinsNum++;
+                playerWinsStr = String.valueOf(playerWinsNum);
+                gameResults.append("You picked rock, the computer picked scissors. You won!\n");
+                playerWinsTF.setText("Player Wins: " + playerWinsStr);
+            }
         }
     }
     private class PaperListener implements ActionListener
     {
         public void actionPerformed(ActionEvent AE)
         {
-            gameResults.append("Picked Paper" + "\n");
+            int compMove = rnd.nextInt(3); //0 is rock, 1 is paper, 2 is scissors
+            if (compMove == 0)//rock
+            {
+                playerWinsNum++;
+                playerWinsStr = String.valueOf(playerWinsNum);
+                gameResults.append("You picked paper, the computer picked rock. You won!\n");
+                playerWinsTF.setText("Player Wins: " + playerWinsStr);
+            }
+            else if (compMove == 1)//paper
+            {
+                tiesNum++;
+                tiesStr = String.valueOf(tiesNum);
+                gameResults.append("You picked paper, the computer picked paper. You tied with the computer!\n");
+                tiesTF.setText("Ties: " + tiesStr);
+            }
+            else if (compMove == 2)//scissors
+            {
+                computerWinsNum++;
+                computerWinsStr = String.valueOf(computerWinsNum);
+                gameResults.append("You picked paper, the computer picked scissors. The computer won!\n");
+                computerWinsTF.setText("Computer Wins: " + computerWinsStr);
+            }
         }
     }
     private class ScissorsListener implements ActionListener
     {
         public void actionPerformed(ActionEvent AE)
         {
-            gameResults.append("Picked Scissors" + "\n");
+            int compMove = rnd.nextInt(3); //0 is rock, 1 is paper, 2 is scissors
+            if (compMove == 0)//rock
+            {
+                computerWinsNum++;
+                computerWinsStr = String.valueOf(computerWinsNum);
+                gameResults.append("You picked scissors, the computer picked rock. The computer won!\n");
+                computerWinsTF.setText("Computer Wins: " + computerWinsStr);
+            }
+            else if (compMove == 1)//paper
+            {
+                playerWinsNum++;
+                playerWinsStr = String.valueOf(playerWinsNum);
+                gameResults.append("You picked scissors, the computer picked paper. You won!\n");
+                playerWinsTF.setText("Player Wins: " + playerWinsStr);
+            }
+            else if (compMove == 2)//scissors
+            {
+                tiesNum++;
+                tiesStr = String.valueOf(tiesNum);
+                gameResults.append("You picked scissors, the computer picked scissors. You tied with the computer!\n");
+                tiesTF.setText("Ties: " + tiesStr);
+            }
         }
     }
 }
